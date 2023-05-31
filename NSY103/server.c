@@ -89,7 +89,7 @@ int main(void)
         exit(EXIT_FAILURE);
     }
 
-    daemon();
+    //daemon();
     signal(SIGINT, &sigInt);
     signal(SIGHUP, &sigHup);
 
