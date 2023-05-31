@@ -6,4 +6,5 @@
 #include <string.h>
 #include <errno.h>
 #include <arpa/inet.h>
-test
+
+vs code c de la merde
