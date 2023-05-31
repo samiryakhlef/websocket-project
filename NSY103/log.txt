@@ -1,0 +1,40 @@
+process pere tuet
+process numéro 11452 : Thu Jun  1 00:07:50 2023
+
+process pere tuer
+process pere tuet
+process numéro 0 : Thu Jun  1 00:07:50 2023
+
+process pere tué :
+convertion buffer en int
+process pere tuet
+process numéro 11509 : Thu Jun  1 00:10:56 2023
+
+process pere tuer
+process pere tuet
+process numéro 0 : Thu Jun  1 00:10:56 2023
+
+process pere tué :
+convertion buffer en int
+process pere tué: 
+process numéro 12113 : Thu Jun  1 00:57:21 2023
+
+process pere tué: 
+process pere tué: 
+process numéro 12157 : Thu Jun  1 00:58:39 2023
+
+process pere tué: 
+process pere tué: 
+process numéro 0 : Thu Jun  1 00:58:39 2023
+
+process pere tué:
+convertion buffer en int: 
+process pere tué: 
+process numéro 12387 : Thu Jun  1 00:59:29 2023
+
+process pere tué: 
+process pere tué: 
+process numéro 0 : Thu Jun  1 00:59:29 2023
+
+process pere tué:
+convertion buffer en int: 
