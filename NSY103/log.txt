@@ -38,3 +38,113 @@ process numéro 0 : Thu Jun  1 00:59:29 2023
 
 process pere tué:
 convertion buffer en int: 
+process pere tué: 
+process numéro 1623 : Thu Jun  1 18:48:15 2023
+
+process pere tué: 
+process pere tué: 
+process numéro 0 : Thu Jun  1 18:48:15 2023
+
+process pere tué:
+convertion buffer en int: 
+process pere tué: 
+process numéro 1909 : Thu Jun  1 18:50:22 2023
+
+process pere tué: 
+process pere tué: 
+process numéro 0 : Thu Jun  1 18:50:22 2023
+
+process pere tué:
+convertion buffer en int: 
+process pere tué: 
+process numéro 2325 : Thu Jun  1 18:54:08 2023
+
+process pere tué: 
+process pere tué: 
+process numéro 2340 : Thu Jun  1 18:54:10 2023
+
+process pere tué: 
+process pere tué: 
+process numéro 2352 : Thu Jun  1 18:54:12 2023
+
+process pere tué: 
+process pere tué: 
+process numéro 0 : Thu Jun  1 18:54:08 2023
+
+process pere tué:
+convertion buffer en int: 
+process pere tué: 
+process numéro 2651 : Thu Jun  1 18:55:34 2023
+
+process pere tué: 
+Parent process killed: 
+Child process created with PID 3347 at Thu Jun  1 19:26:37 2023
+
+Parent process killed: 
+Parent process killed: 
+Child process created with PID 0 at Thu Jun  1 19:26:37 2023
+
+Failed to bind the socket.
+process pere tué: 
+process numéro 0 : Thu Jun  1 18:54:10 2023
+
+process pere tué:
+convertion buffer en int: 
+process pere tué: 
+process numéro 0 : Thu Jun  1 18:55:34 2023
+
+process pere tué:
+convertion buffer en int: 
+Parent process killed: 
+Child process created with PID 4716 at Thu Jun  1 21:12:26 2023
+
+Parent process killed: 
+Parent process killed: 
+Child process created with PID 6509 at Thu Jun  1 22:01:34 2023
+
+Parent process killed: 
+Parent process killed: 
+Child process created with PID 0 at Thu Jun  1 22:01:34 2023
+
+Failed to bind the socket.
+Parent process killed: 
+Child process created with PID 6659 at Thu Jun  1 22:04:08 2023
+
+Parent process killed: 
+Parent process killed: 
+Child process created with PID 0 at Thu Jun  1 22:04:08 2023
+
+Failed to bind the socket.
+Parent process killed: 
+Child process created with PID 7141 at Thu Jun  1 22:10:28 2023
+
+Parent process killed: 
+Parent process killed: 
+Child process created with PID 0 at Thu Jun  1 22:10:28 2023
+
+Failed to bind the socket.
+Parent process killed: 
+Child process created with PID 1679 at Fri Jun  2 00:53:48 2023
+
+Parent process killed: 
+Parent process killed: 
+Child process created with PID 2139 at Fri Jun  2 01:08:42 2023
+
+Parent process killed: 
+Parent process killed: 
+Child process created with PID 0 at Fri Jun  2 01:08:42 2023
+
+Failed to bind the socket.
+Parent process killed: 
+Child process created with PID 2273 at Fri Jun  2 01:09:40 2023
+
+Parent process killed: 
+Parent process killed: 
+Child process created with PID 0 at Fri Jun  2 01:09:40 2023
+
+Failed to bind the socket.
+Parent process killed: 
+Child process created with PID 0 at Fri Jun  2 00:53:48 2023
+
+Parent process killed:
+Converted buffer to int: 
