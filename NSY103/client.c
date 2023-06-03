@@ -58,6 +58,9 @@ int main(void)
     scanf("%s", buffer);
     send(socketClient, buffer, sizeof(buffer), 0);
 
+    recv(socketClient, buffer, sizeof(buffer), 0);
+    printf("%s", buffer);
+
     close(socketClient);
 
     return 0;
