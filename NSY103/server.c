@@ -38,13 +38,13 @@ void *function(void *Client)
     send(client->socketClient, pseudo, sizeof(pseudo), 0);
 
     recv(client->socketClient, buffer, sizeof(buffer), 0);
-    printf("%s est connecté\n", buffer);
+    printf("%s est connecté \n", buffer);
     nbrConnect++;
-    printf("%d sont connectés\n ", nbrConnect);
+    printf("%d sont connectés \n", nbrConnect);
 
     strcpy(client->pseudo, buffer);
     ClientConnect[client->id] = client;
-    printf("%s dans tableau des clients connectés\n", ClientConnect[client->id]->pseudo);
+    printf("%s dans tableau des clients connectés \n", ClientConnect[client->id]->pseudo);
 
     // communiquer avec qui ?
     char contact[35];
@@ -71,9 +71,8 @@ void *function(void *Client)
         if (strcmp(buffer, ClientConnect[i]->pseudo) == 0)
         {
             char connexion[35];
-            strcpy(connexion, "init connexion avec ");
-            strcat(connexion, client->pseudo);
-            // send(ClientConnect[i]->socketClient, connexion, sizeof(connexion), 0);
+            strcpy(connexion, "début du chat \n");
+            send(ClientConnect[i]->socketClient, connexion, sizeof(connexion), 0);
             clientTrouve = 1;
             break;
         }
@@ -131,7 +130,7 @@ int main(void)
 
     // prepare pour accepter connexion
     // fd, nb de personne en attente
-    if (listen(socketServer, 1) == -1)
+    if (listen(socketServer, 3) == -1)
     {
         printf("error Preparing to accept connections on socket FD\n");
         close(socketServer);
