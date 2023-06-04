@@ -42,7 +42,7 @@ void *function(void *arg)
 
     if (recv(client->socket, buffer, sizeof(buffer), 0) <= 0)
     {
-        perror("Error receiving contact");
+        perror("Error receiving contact");  
         close(client->socket);
         pthread_exit(NULL);
     }

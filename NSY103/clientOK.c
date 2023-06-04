@@ -14,7 +14,7 @@ void *receive_messages(void *arg)
 {
     int client_socket = *(int *)arg;
     
-
+  
     while ((read_size = recv(client_socket, buffer, sizeof(buffer), 0)) > 0)
     {
         buffer[read_size] = '\0';
@@ -63,7 +63,7 @@ void start_client()
         exit(EXIT_FAILURE);
     }
      
-     
+
     if (pthread_create(&recv_thread, NULL, receive_messages, (void *)&client_socket) != 0)
     {
         perror("thread creation failed\n");
