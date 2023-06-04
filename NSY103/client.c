@@ -61,7 +61,16 @@ int main(void)
     recv(socketClient, buffer, sizeof(buffer), 0);
     printf("%s", buffer);
 
-    
+    //Message :
+    recv(socketClient, buffer, sizeof(buffer), 0);
+    printf("%s", buffer);
+
+    while(1){
+        //Reponse : 
+        scanf("%s", buffer);
+        send(socketClient, buffer, sizeof(buffer), 0);
+    }
+  
 
     close(socketClient);
 

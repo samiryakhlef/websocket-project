@@ -29,6 +29,41 @@ struct CLIENT
 
 } *Client;
 
+// void *rcv_env(void *Client){
+//     struct CLIENT *client = (struct CLIENT *)Client;
+//     while(1){
+//         sem_wait(&semaphore);
+           //le server recoit et retransmet le message
+//         recv(client->socketClient, buffer, sizeof(buffer), 0);
+//         sem_post(&semaphore);
+
+//         sem_wait(&semaphore);
+//         send(client->socketClient, pseudo, sizeof(pseudo), 0);
+//         sem_post(&semaphore);
+     
+//     }
+//     close(client->socketClient);
+//     pthread_exit(EXIT_SUCCESS);
+
+// }
+
+// void *write_env(void *Client){
+//     struct CLIENT *client = (struct CLIENT *)Client;
+//     while(1){
+
+//         sem_wait(&semaphore)
+//         char msg[1024];
+//         scanf("%s", buffer);)
+//         send(client->socketClient, pseudo, sizeof(pseudo), 0);
+//         sem_post(&semaphore);
+//     }
+   
+//     close(client->socketClient);
+//     pthread_exit(EXIT_SUCCESS);
+
+// }
+
+
 void *function(void *Client)
 {
     struct CLIENT *client = (struct CLIENT *)Client;
@@ -73,6 +108,14 @@ void *function(void *Client)
             char connexion[35];
             strcpy(connexion, "début du chat \n");
             send(ClientConnect[i]->socketClient, connexion, sizeof(connexion), 0);
+            //send(client->socketClient, connexion, sizeof(connexion), 0);
+
+          
+            // pthread_t thread_rcv_env;
+            // pthread_t thread_write_env;
+
+            // pthread_create(&thread_rcv_env, NULL, rcv_env, (void *) tableau avec client + ClientConnecte);
+            // pthread_create(&thread_write_env, NULL, write_env, (void *tableau avec client + ClientConnecte));
             clientTrouve = 1;
             break;
         }
@@ -83,20 +126,8 @@ void *function(void *Client)
         char message[105];
         strcpy(message, "Aucun utilisateur avec le pseudo spécifié n'est disponible\n");
         send(client->socketClient, message, sizeof(message), 0);
-    }
+    }   
 
-    // //si connexion accepté on entre dans le semaphore
-    // while (1) {
-    // 	// On attend la disponibilité du sémaphore
-    // 	sem_wait(&semaphore);
-    // 	// Section critique
-    // 	printf("Je suis le thread [%i] et je vais dormir 1 seconde\n", tid);
-    // 	sleep(1);
-    // 	printf("Je suis le thread [%i] et j'ai fini ma sieste\n", tid);
-    // 	// On relache le sémaphore
-    // 	sem_post(&semaphore);
-
-    // }
 
     close(client->socketClient);
     pthread_exit(EXIT_SUCCESS);
