@@ -8,28 +8,30 @@
 #define SERVER_IP "192.168.80.20"
 #define PORT 1234
 char buffer[1024];
-    int read_size;
+int read_size;
+int close_socket = 0;
 
 void *receive_messages(void *arg)
 {
     int client_socket = *(int *)arg;
-    
-  
-    while ((read_size = recv(client_socket, buffer, sizeof(buffer), 0)) > 0)
+
+    while (1)
     {
+        read_size = recv(client_socket, buffer, sizeof(buffer), 0);
+        if (read_size == -1)
+        {
+            perror("recv failed\n");
+            break;
+        }
+
+        if (read_size == 0)
+        {
+            printf("Disconnected from server\n");
+            break;
+        }
         buffer[read_size] = '\0';
+
         printf("Received message: %s\n", buffer);
-
-    }
-    
-
-    if (read_size == 0)
-    {
-        printf("Disconnected from server\n");
-    }
-    else if (read_size == -1)
-    {
-        perror("recv failed\n");
     }
 
     pthread_exit(NULL);
@@ -62,15 +64,12 @@ void start_client()
         perror("connection failed\n");
         exit(EXIT_FAILURE);
     }
-     
 
     if (pthread_create(&recv_thread, NULL, receive_messages, (void *)&client_socket) != 0)
     {
         perror("thread creation failed\n");
         exit(EXIT_FAILURE);
     }
-
-   
 
     while (1)
     {
@@ -80,10 +79,17 @@ void start_client()
 
         if (strcmp(message, "exit") == 0)
         {
-            break;
+            close(client_socket);
+            close_socket = 1;
+            
         }
 
-        send(client_socket, message, strlen(message), 0);
+        if (send(client_socket, message, strlen(message), MSG_DONTWAIT) < 0 && close_socket ==1)
+        {
+            printf("erreur envoie\n");
+            break;
+        };
+        close_socket = 0;
     }
 
     close(client_socket);
