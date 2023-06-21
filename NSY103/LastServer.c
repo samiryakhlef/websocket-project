@@ -14,10 +14,15 @@
 #include <syslog.h>
 
 #define BUFFER_LEN 1024
+#define MESSAGE "Connecté au serveur :\n"
+#define PROMPT "Entrez votre nom : "
+#define ERROR "Ce nom est déjà utilisé. Choisir un nouveau pseudo...\n"
+
 static char buffer[BUFFER_LEN];
 static char bufferSignal[10];
 int pb = 0;
-//int deconnect = 0;
+char nameBuffer[35];
+// int deconnect = 0;
 
 typedef struct
 {
@@ -48,26 +53,11 @@ void logEvent(const char *message)
     openlog("LastServer", LOG_PID | LOG_CONS, LOG_USER);
     syslog(LOG_INFO, message);
     closelog();
-    // file = fopen("server_logs.txt", "a");
-    //  if (file == NULL)
-    //  {
-    //      perror("Erreur lors de l'ouverture du fichier de logs");
-    //      return;
-    //  }
-
-    // time_t currentTime;
-    // time(&currentTime);
-    // char *timeString = ctime(&currentTime);
-    // timeString[strlen(timeString) - 1] = '\0'; // Supprimer le caractère de nouvelle ligne
-
-    // fprintf(file, "[%s] %s\n", timeString, message);
-
-    // fclose(file);
 }
 
 void signal_handler(int signum)
 {
-    // sighup : 1, sigint : 2, sigterm : 15
+
     if (signum == SIGHUP)
     { // Si le signal est SIGHUP, alors on redémarre le processus
       // execvp remplace le processus courant par un nouveau processus
@@ -107,42 +97,59 @@ void init_client()
         clientList[numClients].socket = 0;
         strcpy(clientList[numClients].name, "");
         clientList[numClients].deconnect = 0;
-
     }
 }
 
 void verif_client(Client *client)
 {
-    // Vérification si le nom du client est unique
-    int isNameUnique = 0;
-    for (int i = 0; i < numClients; i++)
-    {
-        if (strcmp(client->name, clientList[i].name) == 0)
-        {
-            isNameUnique++;
-        }
-    }
+    int isNameUnique;
 
-    if (isNameUnique > 1)
+    do
     {
-        char error[] = "Ce nom est déjà utilisé. Déconnexion...\n";
-        if (send(client->socket, error, sizeof(error), 0) == -1)
+        isNameUnique = 0;
+
+        // Vérification si le nom du client est unique
+
+        for (int i = 0; i < numClients; i++)
         {
-            perror("Ce nom est déjà utilisé. Déconnexion...");
-            // fprintf(logFile, "Erreur lors de l'envoi du message de nom déjà utilisé.\n");
-            logEvent("Ce nom est déjà utilisé. Déconnexion...");
+            if (strcmp(client->name, clientList[i].name) == 0)
+            {
+                isNameUnique++;
+            }
         }
-        close(client->socket);
-    }
+
+        if (isNameUnique > 1)
+        {
+            // char error[] = "Ce nom est déjà utilisé. Choisir un nouveau pseudo...\n";
+            if (send(client->socket, "Nouveau pseudo : ", sizeof("Nouveau pseudo : "), 0) == -1)
+            {
+                perror("Choix nouveau pseudo");
+                // fprintf(logFile, "Erreur lors de l'envoi du message de nom déjà utilisé.\n");
+                logEvent("Choix nouveau pseudo");
+            }
+
+            int recvSize = recv(client->socket, nameBuffer, sizeof(nameBuffer), 0);
+            if (recvSize <= 0)
+            {
+                perror("Erreur lors de la réception du nom du client");
+                // fprintf(logFile, "Erreur lors de la réception du nom du client.\n");
+                logEvent("Erreur lors de la réception du nom du client");
+                close(client->socket);
+            }
+            // close(client->socket);        }
+            // isNameUnique = 0;
+            nameBuffer[recvSize] = '\0';
+            strcpy(client->name, nameBuffer);
+        }
+
+    } while (isNameUnique > 1);
 }
 
 void *handle_client(void *arg)
 {
     Client *client = (Client *)arg;
-
-    char message[] = "Connecté au serveur :\n";
-
-    if (send(client->socket, message, sizeof(message), 0) == -1)
+    // char message[] = "Connecté au serveur :\n";
+    if (send(client->socket, MESSAGE, sizeof(MESSAGE), 0) == -1)
     {
         perror("Erreur lors de l'envoi du message de connexion");
         // fprintf(logFile, "Erreur lors de l'envoi du message de connexion.\n");
@@ -151,10 +158,10 @@ void *handle_client(void *arg)
     }
 
     // Réception du nom du client
-    char nameBuffer[35];
-    char prompt[] = "Entrez votre nom : ";
-    
-    if (send(client->socket, prompt, sizeof(prompt), 0) == -1)
+    //char nameBuffer[35];
+    // char prompt[] = "Entrez votre nom : ";
+
+    if (send(client->socket, PROMPT, sizeof(PROMPT), 0) == -1)
     {
         perror("Erreur lors de l'envoi de la demande de nom");
         // fprintf(logFile, "Erreur lors de l'envoi de la demande de nom.\n");
@@ -184,28 +191,26 @@ void *handle_client(void *arg)
             printf("%s s'est déconnecté.\n", client->name);
             char mess_error[35] = "Déconnecté  : ";
             logEvent(strcat(mess_error, client->name));
-            //close(client->socket);
+            // close(client->socket);
             client->deconnect = 1;
             break;
         }
 
-       
-            // Diffusion du message reçu aux autres clients
-            for (int i = 0; i < maxClients; i++)
+        // Diffusion du message reçu aux autres clients
+        for (int i = 0; i < maxClients; i++)
+        {
+            if (clientList[i].socket > 0 && clientList[i].deconnect == 0)
             {
-                if (clientList[i].socket > 0 && clientList[i].deconnect == 0)
+                if (send(clientList[i].socket, buffer, recvSize, 0) < 0)
                 {
-                    if (send(clientList[i].socket, buffer, recvSize, 0) < 0)
-                    {
-                        perror("Erreur lors de l'envoie du message");
-                        // fprintf(logFile, "Erreur lors de l'envoi du message.\n");
-                        logEvent("Erreur lors de l'envoi du message");
-                        // pb = 1;
-                        break;
-                    }
+                    perror("Erreur lors de l'envoie du message");
+                    // fprintf(logFile, "Erreur lors de l'envoi du message.\n");
+                    logEvent("Erreur lors de l'envoi du message");
+                    // pb = 1;
+                    break;
                 }
             }
-        
+        }
     }
     close(client->socket);
     pthread_exit(NULL);
